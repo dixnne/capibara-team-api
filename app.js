@@ -60,12 +60,6 @@ app.patch("/users/:id", (req, res) => {
     };
     res.json(jokes[searchIndex]);
 });
-
-app.get("/testCollection", (req, res) => {
-  db.getCollection("testCollection").then((data) => {
-    res.json(data);
-  })
-})
   
 app.delete("/users/:id", (req, res) => {
     const id = parseInt(req.params.id);
