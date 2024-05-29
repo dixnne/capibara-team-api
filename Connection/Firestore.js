@@ -1,27 +1,27 @@
 import {admin} from './keys/Credentials.js'
 
 export class FirestoreConnection{
-
+    #db=null;
+    constructor(){
+        this.#db=admin.firestore()
+    }
     /*Si se ocupa algo adicional y no se cuenta con alguna persona para este codigo
         es posible traerse la conexion con cloud Firestore para su posterior uso
     */
     getDbConnFirestore(){
-        let db=admin.firestore()
-        return db;
+        return this.#db;
     }
 
     /*Insertar registros de la base de datos*/
     async addDocument(collection,data){
-        let db=admin.firestore()
-        const collectionRef = db.collection(collection);
+        const collectionRef = this.#db.collection(collection);
         await collectionRef.add(data)
         return "Agregado correctamente"
     }
 
     /*Metodos Get para obtener los datos*/
     async getDocumentById(collection,document){
-        let db = admin.firestore();
-        const collectionRef = db.collection(collection).doc(document);
+        const collectionRef = this.#db.collection(collection).doc(document);
 
         try{
             let snapshot = await collectionRef.get();
@@ -38,8 +38,7 @@ export class FirestoreConnection{
     }
 
     async getDocumentByField(collection,fieldPath,value){
-        let db = admin.firestore();
-        const collectionRef = db.collection(collection);
+        const collectionRef = this.#db.collection(collection);
 
         try{
             let snapshot = await collectionRef.where(fieldPath,'==',value).get();
@@ -59,8 +58,7 @@ export class FirestoreConnection{
     }
 
     async getSuggestionsByField(collection,fieldPath,value){
-        let db=admin.firestore();
-        const collectionRef = db.collection(collection);
+        const collectionRef = this.#db.collection(collection);
 
         try{
             const snapshot = await collectionRef.get();
@@ -84,8 +82,7 @@ export class FirestoreConnection{
     }
 
     async getCollection(collection){
-        let db=admin.firestore()
-        const collectionRef = db.collection(collection);
+        const collectionRef = this.#db.collection(collection);
         try {
             const snapshot = await collectionRef.get();
             if (snapshot.empty) {
@@ -110,9 +107,8 @@ export class FirestoreConnection{
         No existe eliminar por concidencias.
     */
     async deleteDocumentByField(collection,fieldName,fieldData){
-        let db=admin.firestore()
 
-        const collectionRef = db.collection(collection);
+        const collectionRef = this.#db.collection(collection);
         
         // Crear una consulta para encontrar documentos con el campo 'last' igual a lastName
         const snapshot = await collectionRef.where(fieldName, '==', fieldData).get();
@@ -131,10 +127,9 @@ export class FirestoreConnection{
     }
 
     async deleteDocumentById(collection,document){
-        let db=admin.firestore()
 
        try{
-        await db.collection(collection).doc(document).delete();
+        await this.#db.collection(collection).doc(document).delete();
         return "Elemento eliminado";
        }catch(error){
         return error
