@@ -1,6 +1,6 @@
-import admin from './keys/Credentials'
+import {admin} from './keys/Credentials.js'
 
-class FirestoreConnection{
+export class FirestoreConnection{
 
     /*Si se ocupa algo adicional y no se cuenta con alguna persona para este codigo
         es posible traerse la conexion con cloud Firestore para su posterior uso
@@ -141,5 +141,3 @@ class FirestoreConnection{
        }
     }
 }
-
-module.exports = FirestoreConnection;

@@ -1,6 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
 
+import { FirestoreConnection } from "./Connection/Firestore.js";
+
+const db = new FirestoreConnection();
+
 const app = express();
 const port = 3000;
 
@@ -56,6 +60,12 @@ app.patch("/users/:id", (req, res) => {
     };
     res.json(jokes[searchIndex]);
 });
+
+app.get("/testCollection", (req, res) => {
+  db.getCollection("testCollection").then((data) => {
+    res.json(data);
+  })
+})
   
 app.delete("/users/:id", (req, res) => {
     const id = parseInt(req.params.id);

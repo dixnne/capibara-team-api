@@ -1,12 +1,9 @@
-import admin from './keys/Credentials';
+import {admin} from './keys/Credentials';
 
-class Analytucs{
+export class Analytucs{
     getDbConnAnalytics(){
         let db = admin.analytics()
         return db;
     }
 
 }
-
-
-module.exports = Analytucs;
