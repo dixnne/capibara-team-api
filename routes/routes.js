@@ -1,5 +1,6 @@
 import express from "express";
 import { FirestoreConnection } from "../Connection/Firestore.js";
+import upload from "../services/uploads.js";
 
 const db = new FirestoreConnection();
 
@@ -16,8 +17,11 @@ router.get("/users/:id", (req,res) => {
   res.json(foundUser);
 });
 
-router.post("/users", (req, res) => {
-  const user = req.body.user;
+router.post("/users", upload.single('image'), (req, res) => {
+  let user = req.body.user;
+  console.log(JSON.stringify(req.file));
+  const image = req.file.path;
+  user.data.image = image;
   const result = db.addDocument("users", user);
   console.log(result);
   res.json(user);
@@ -53,8 +57,11 @@ router.get("/pets/:id", (req,res) => {
     res.json(foundPet);
 });
 
-router.post("/pets", (req, res) => {
-    const pet = req.body.pet;
+router.post("/pets", upload.single('image'), (req, res) => {
+    let pet = req.body.pet;
+    console.log(JSON.stringify(req.file));
+    const image = req.file.path;
+    pet.data.img = image;
     const result = db.addDocument("pets", pet);
     console.log(result);
     res.json(pet);
@@ -127,8 +134,11 @@ router.get("/devs/:id", (req,res) => {
     res.json(foundDev);
 });
 
-router.post("/devs", (req, res) => {
-    const dev = req.body.dev;
+router.post("/devs", upload.single('image'), (req, res) => {
+    let dev = req.body.dev;
+    console.log(JSON.stringify(req.file));
+    const image = req.file.path;
+    dev.data.image = image;
     const result = db.addDocument("devs", dev);
     console.log(result);
     res.json(dev);
