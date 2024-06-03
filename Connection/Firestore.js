@@ -2,6 +2,7 @@ import {admin} from './keys/Credentials.js'
 
 export class FirestoreConnection{
     #db=null;
+
     constructor(){
         this.#db=admin.firestore()
     }
@@ -15,8 +16,12 @@ export class FirestoreConnection{
     /*Insertar registros de la base de datos*/
     async addDocument(collection,data){
         const collectionRef = this.#db.collection(collection);
-        await collectionRef.add(data)
-        return "Agregado correctamente"
+        const response=await collectionRef.add(data).then((result) => {
+            return "Agregado correctamente"
+        }).catch((err) => {
+            return err
+        });
+        return response;
     }
 
     /*Metodos Get para obtener los datos*/
@@ -59,11 +64,9 @@ export class FirestoreConnection{
 
     async getSuggestionsByField(collection,fieldPath,value){
         const collectionRef = this.#db.collection(collection);
-
         try{
             const snapshot = await collectionRef.get();
             if(snapshot.empty){
-                console.log(collection,fieldPath,'array-contains',value)
                 return [];
             }
             let documents = [];
@@ -127,7 +130,6 @@ export class FirestoreConnection{
     }
 
     async deleteDocumentById(collection,document){
-
        try{
         await this.#db.collection(collection).doc(document).delete();
         return "Elemento eliminado";
