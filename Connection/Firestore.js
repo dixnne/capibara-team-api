@@ -6,7 +6,8 @@ export class FirestoreConnection{
     constructor(){
         this.#db=admin.firestore()
     }
-    /*Si se ocupa algo adicional y no se cuenta con alguna persona para este codigo
+    /*
+        Si se ocupa algo adicional y no se cuenta con alguna persona para este codigo
         es posible traerse la conexion con cloud Firestore para su posterior uso
     */
     getDbConnFirestore(){
@@ -14,14 +15,10 @@ export class FirestoreConnection{
     }
 
     /*Insertar registros de la base de datos*/
-    async addDocument(collection,data){
+    async addDocument(collection, data){
         const collectionRef = this.#db.collection(collection);
-        const response=await collectionRef.add(data).then((result) => {
-            return "Agregado correctamente"
-        }).catch((err) => {
-            return err
-        });
-        return response;
+        await collectionRef.add(data);
+        return "Document added successfully.";
     }
 
     /*Metodos Get para obtener los datos*/
@@ -34,10 +31,10 @@ export class FirestoreConnection{
                 return {};
             }
             let data=snapshot.data();
-            data={id:snapshot.id,...data}
+            data={id:snapshot.id,...data};
             return data;
         }catch(error){
-            console.log(error)
+            console.log(error);
             return {};
         }
     }
@@ -105,7 +102,8 @@ export class FirestoreConnection{
         }
     }
 
-    /*Eliminar documentos de la base de datos
+    /*
+        Eliminar documentos de la base de datos
         Solo se puede eliminar por llave o por algun campo identico en la base de datos
         No existe eliminar por concidencias.
     */
@@ -117,24 +115,24 @@ export class FirestoreConnection{
         const snapshot = await collectionRef.where(fieldName, '==', fieldData).get();
 
         if (snapshot.empty) {
-            console.log('No se encontraron documentos.');
-            return 'No se encontraron documentos.';
+            return 'No documents found.';
         } 
 
         // Eliminar cada documento que coincide con la consulta
         await snapshot.forEach(async (doc) => {
             await doc.ref.delete();
             message = "Documento eliminado: "+doc.id
+            return 'Document successfully deleted';
         });
 
     }
 
     async deleteDocumentById(collection,document){
        try{
-        await this.#db.collection(collection).doc(document).delete();
-        return "Elemento eliminado";
+            await this.#db.collection(collection).doc(document).delete();
+            return "Elemento eliminado";
        }catch(error){
-        return error
+            return error;
        }
     }
 }
