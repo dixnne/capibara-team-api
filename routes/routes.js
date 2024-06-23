@@ -18,7 +18,7 @@ router.get("/users/:id", async (req, res) => {
 });
 
 router.post("/users", upload.single('file'), async (req, res) => {
-  let user = req.body.user;
+  let user = JSON.parse(req.body.user);
   console.log(JSON.stringify(req.file));
   const image = req.file.path;
   user.image = image;
@@ -28,7 +28,7 @@ router.post("/users", upload.single('file'), async (req, res) => {
 });
 
 router.put("/users/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id;
   const user = req.body.user;
   const result = await db.deleteDocumentById("users", id);
   console.log(result);
@@ -38,7 +38,7 @@ router.put("/users/:id", async (req, res) => {
 });
   
 router.delete("/users/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const result = await db.deleteDocumentById("users", id);
     console.log(result);
     res.json({
@@ -68,7 +68,7 @@ router.post("/pets", upload.single('file'), async (req, res) => {
 });
 
 router.put("/pets/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const pet = req.body.pet;
     const result = await db.deleteDocumentById("pets", id);
     console.log(result);
@@ -78,7 +78,7 @@ router.put("/pets/:id", async (req, res) => {
 });
   
 router.delete("/pets/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const result = await db.deleteDocumentById("pets", id);
     console.log(result);
     res.json({
@@ -105,7 +105,7 @@ router.post("/dates", async (req, res) => {
 });
 
 router.put("/dates/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const date = req.body.date;
     const result = await db.deleteDocumentById("dates", id);
     console.log(result);
@@ -115,7 +115,7 @@ router.put("/dates/:id", async (req, res) => {
 });
   
 router.delete("/dates/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const result = await db.deleteDocumentById("dates", id);
     console.log(result);
     res.json({
@@ -135,7 +135,7 @@ router.get("/devs/:id", async (req, res) => {
 });
 
 router.post("/devs", upload.single('file'), async (req, res) => {
-    let dev = req.body.dev;
+    let dev = JSON.parse(req.body.dev);
     console.log(JSON.stringify(req.file));
     const image = req.file.path;
     dev.image = image;
@@ -145,7 +145,7 @@ router.post("/devs", upload.single('file'), async (req, res) => {
 });
 
 router.put("/devs/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const dev = req.body.dev;
     const result = await db.deleteDocumentById("devs", id);
     console.log(result);
@@ -155,7 +155,7 @@ router.put("/devs/:id", async (req, res) => {
 });
   
 router.delete("/devs/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const result = await db.deleteDocumentById("devs", id);
     console.log(result);
     res.json({
