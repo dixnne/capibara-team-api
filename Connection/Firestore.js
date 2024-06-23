@@ -26,15 +26,25 @@ export class FirestoreConnection{
 
         try{
             let snapshot = await collectionRef.get();
+            let data = {};
             if(snapshot.empty){
-                return {};
+                console.log("Document with id " + document + " not found.");
+                data = {
+                    error: "Document with id " + document + " not found."
+                }
+            } else {
+                data = {
+                    id: snapshot.id,
+                    data: snapshot.data()
+                };
+                console.log(data);
             }
-            let data=snapshot.data();
-            data={id:snapshot.id,...data};
             return data;
         }catch(error){
             console.log(error);
-            return {};
+            return {
+                error: "Couldn't retrieve data"
+            };
         }
     }
 
@@ -43,18 +53,22 @@ export class FirestoreConnection{
 
         try{
             let snapshot = await collectionRef.where(fieldPath,'==',value).get();
-            if(snapshot.empty){
-                return [];
-            }
             let documents = [];
-            snapshot.forEach(doc => {
-                let data=doc.data();
-                data = {id:doc.id,...data}
-                documents.push(data);
-            });
+            if (snapshot.empty) {
+                console.log('No matching documents.');
+            } else {
+                snapshot.forEach(doc => {
+                    documents.push({
+                        id: doc.id,
+                        data: doc.data()
+                    });
+                });
+                console.log(documents);
+            }
             return documents;
         }catch(error){
-            console.log(error)
+            console.log(error);
+            return [];
         }
     }
 
