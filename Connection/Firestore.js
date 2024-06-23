@@ -85,19 +85,21 @@ export class FirestoreConnection{
         const collectionRef = this.#db.collection(collection);
         try {
             const snapshot = await collectionRef.get();
-            if (snapshot.empty) {
-            console.log('No matching documents.');
-            return [];
-            }
             let documents = [];
-            snapshot.forEach(doc => {
-                let data=doc.data();
-                data = {id:doc.id,...data}
-                documents.push(data);
-            });
+            if (snapshot.empty()) {
+                console.log('No matching documents.');
+            } else {
+                snapshot.forEach(doc => {
+                    documents.push({
+                        id: doc.id,
+                        data: doc.data()
+                    });
+                });
+                console.log(documents);
+            }
             return documents;
         } catch (error) {
-            console.error('Error getting collection:', error);
+            console.log('Error getting collection:', error);
             return [];
         }
     }
