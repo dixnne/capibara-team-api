@@ -46,8 +46,8 @@ router.delete("/users/:id", (req, res) => {
     });
 });
 
-router.get("/pets", (req,res) => {
-    let pets = db.getCollection("pets");
+router.get("/pets", async (req,res) => {
+    let pets = await db.getCollection("pets");
     res.json(pets);
 });
 
@@ -86,8 +86,8 @@ router.delete("/pets/:id", (req, res) => {
     });
 });
 
-router.get("/dates", (req,res) => {
-    let dates = db.getCollection("dates");
+router.get("/dates", async (req,res) => {
+    let dates = await db.getCollection("dates");
     res.json(dates);
 });
 

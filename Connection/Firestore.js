@@ -86,7 +86,7 @@ export class FirestoreConnection{
         try {
             const snapshot = await collectionRef.get();
             let documents = [];
-            if (snapshot.empty()) {
+            if (snapshot.empty) {
                 console.log('No matching documents.');
             } else {
                 snapshot.forEach(doc => {
