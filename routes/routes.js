@@ -58,7 +58,7 @@ router.get("/pets/:id", (req,res) => {
 });
 
 router.post("/pets", upload.single('file'), (req, res) => {
-    let pet = req.pet;
+    let pet = req.body.pet;
     console.log(JSON.stringify(req.file));
     const image = req.file.path;
     pet.img = image;
