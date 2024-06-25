@@ -22,7 +22,7 @@ export class Analytics{
     
         const startDateString = startDate.toISOString().split('T')[0];
         const endDateString = endDate.toISOString().split('T')[0];
-        let propertyId='442049816';
+        let propertyId='447595489';
         const requests = {
             property: `properties/${propertyId}`,
             requests: [
