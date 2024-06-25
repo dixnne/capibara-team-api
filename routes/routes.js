@@ -1,10 +1,12 @@
 import express from "express";
 import { FirestoreConnection } from "../Connection/Firestore.js";
 import upload from "../services/uploads.js";
-import { sendMail } from "../Mail/mail.js";
+import { cita } from "../Mail/mail.js";
+import { Analytics } from "../Connection/Analytics.js";
 
 const db = new FirestoreConnection();
 
+const analytics = new Analytics();
 const router = express.Router();
 
 router.get("/users", async (req, res) => {
@@ -169,5 +171,11 @@ router.delete("/devs/:id", async (req, res) => {
         message: result
     });
 });
+
+router.get('/graph/:date', (req, res) => {
+    let date = req.params.date;
+    analytics.getReport(date,res);
+    
+})
 
 export default router;

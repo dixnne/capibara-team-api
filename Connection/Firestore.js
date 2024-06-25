@@ -2,6 +2,7 @@ import {admin} from './keys/Credentials.js'
 
 export class FirestoreConnection{
     #db=null;
+
     constructor(){
         this.#db=admin.firestore()
     }
@@ -77,7 +78,6 @@ export class FirestoreConnection{
         try{
             const snapshot = await collectionRef.get();
             if(snapshot.empty){
-                console.log(collection,fieldPath,'array-contains',value)
                 return [];
             }
             let documents = [];
@@ -144,7 +144,6 @@ export class FirestoreConnection{
     }
 
     async deleteDocumentById(collection,document){
-
        try{
             await this.#db.collection(collection).doc(document).delete();
             return "Elemento eliminado";

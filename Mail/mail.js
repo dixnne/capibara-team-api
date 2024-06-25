@@ -8,13 +8,14 @@ const transporter = nodemailer.createTransport({
     }
   });
 
-export function sendMail(data,res){
+export function cita(data,res){
     const mailOptions = {
         from: 'proyectmail856@gmail.com',
         to: data.to,
         subject: data.subject,
         text: '',
         html: `<h1>Capibara Team</h1>
+              <h1>Gracias por agendar tu cita, estos son los datos de tu cita.</h1>
               <p>${data.body}</p>
               <div><img src="cid:footer" style="width:700px;height:200px;"/></div>`,
         attachments: [
@@ -22,7 +23,6 @@ export function sendMail(data,res){
                 filename: 'Capibara Team.jpg',
                 path: 'img/Capibara Team.jpg',
                 cid: 'footer'
-            //  path: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
             }
         ]
     };
@@ -36,4 +36,33 @@ export function sendMail(data,res){
         console.log('Email sent: ' + info.response);
       }
     });
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    res.send({message:"Error al mandar el correo",success:false,error:error})
+    console.log(error);
+  } else {
+    res.send({message:"Correo enviado",success:true,error:null})
+    console.log('Email sent: ' + info.response);
+  }
+});
 }
+
+export function contact(data,res){
+  const mailOptions = {
+    from: 'proyectmail856@gmail.com',
+    to: 'humbertomanuel_cabrera@outlook.es',
+    subject: data.subject,
+    text: '',
+    html: `<h1>Capibara Team</h1>
+          <h1>Correo de: ${data.to}</h1>
+          <p>${data.body}</p>
+          <div><img src="cid:footer" style="width:700px;height:200px;"/></div>`,
+    attachments: [
+        {
+            filename: 'Capibara Team.jpg',
+            path: 'img/Capibara Team.jpg',
+            cid: 'footer'
+        }
+    ]
+}}
