@@ -17,6 +17,12 @@ router.get("/users/:id", async (req, res) => {
   res.json(foundUser);
 });
 
+router.get("/users/email/:email", async (req, res) => {
+    let email = req.params.email;
+    let foundUser = await db.getDocumentByField("users", "email", email);
+    res.json(foundUser);
+});
+
 router.post("/users", upload.single('file'), async (req, res) => {
   let user = JSON.parse(req.body.user);
   console.log(JSON.stringify(req.file));
