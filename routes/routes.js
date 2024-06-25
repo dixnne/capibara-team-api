@@ -1,7 +1,7 @@
 import express from "express";
 import { FirestoreConnection } from "../Connection/Firestore.js";
 import upload from "../services/uploads.js";
-import { cita } from "../Mail/mail.js";
+import { cita, contact } from "../Mail/mail.js";
 import { Analytics } from "../Connection/Analytics.js";
 
 const db = new FirestoreConnection();
@@ -176,6 +176,16 @@ router.get('/graph/:date', (req, res) => {
     let date = req.params.date;
     analytics.getReport(date,res);
     
-})
+});
+
+router.post("/mail/contact", (req, res) => {
+    const body = req.body;
+    contact(body, res);
+});
+
+router.post("/mail/date", (req, res) => {
+    const body = req.body;
+    contact(body, res);
+});
 
 export default router;

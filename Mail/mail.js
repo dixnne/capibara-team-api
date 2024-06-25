@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
     }
   });
 
-export function cita(data,res){
+export function date(data,res){
     const mailOptions = {
         from: 'proyectmail856@gmail.com',
         to: data.to,
@@ -36,16 +36,6 @@ export function cita(data,res){
         console.log('Email sent: ' + info.response);
       }
     });
-
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    res.send({message:"Error al mandar el correo",success:false,error:error})
-    console.log(error);
-  } else {
-    res.send({message:"Correo enviado",success:true,error:null})
-    console.log('Email sent: ' + info.response);
-  }
-});
 }
 
 export function contact(data,res){
@@ -65,4 +55,14 @@ export function contact(data,res){
             cid: 'footer'
         }
     ]
-}}
+  }
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      res.send({message:"Error al mandar el correo",success:false,error:error})
+      console.log(error);
+    } else {
+      res.send({message:"Correo enviado",success:true,error:null})
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
