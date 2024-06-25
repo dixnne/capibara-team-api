@@ -1,6 +1,7 @@
 import express from "express";
 import { FirestoreConnection } from "../Connection/Firestore.js";
 import upload from "../services/uploads.js";
+import { sendMail } from "../Mail/mail.js";
 
 const db = new FirestoreConnection();
 
@@ -168,4 +169,5 @@ router.delete("/devs/:id", async (req, res) => {
         message: result
     });
 });
+
 export default router;
